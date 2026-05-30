@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using todo_app.Data;
 using todo_app.Dtos;
+using todo_app.Dtos.Genre;
 using todo_app.Models;
 
 namespace todo_app.Controller;
@@ -64,5 +65,19 @@ public class GenreController : ControllerBase
         }
 
         return Ok(genre);
+    }
+
+
+    [HttpPost("DeleteGenre")]
+    public async Task<IActionResult> DeleteGenre(DeleteGenreRequest gen)
+    {
+        var genre = await _context.Genres.FindAsync(gen.genreId);
+        if (genre == null)
+        {
+            return NotFound(new CommonResponse(400, "Data Not Found"));
+        }
+        _context.Genres.Remove(genre);
+        await _context.SaveChangesAsync();
+        return Ok(new CommonResponse(200, "Data Deleted Successfully"));
     }
 }

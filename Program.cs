@@ -3,6 +3,7 @@ using todo_app.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddValidation();
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
