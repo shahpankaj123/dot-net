@@ -52,4 +52,19 @@ public class UserController : ControllerBase
         return Ok(new CommonResponse(201, "User created successfully"));
     }
 
+
+    [HttpGet("GetUser")]
+    public async Task<IActionResult> GetUserByEmail([FromQuery] string email)
+    {
+        var usr = await _context.Users
+            .FirstOrDefaultAsync(u => u.Email == email);
+
+        if (usr == null)
+        {
+            return NotFound(new CommonResponse(404, "User Not Found"));
+        }
+
+        return Ok(usr);
+    }
+
 }
